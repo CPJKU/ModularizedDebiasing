@@ -1,0 +1,104 @@
+data_config_bios:
+    task_key: "title"
+    protected_key: "gender"
+    text_key: "bio"
+    train_pkl: "/share/cp/datasets/nlp/text_classification_bias/bios/only_task_balanced/train_balanced_every_job.pkl"
+    val_pkl: "/share/cp/datasets/nlp/text_classification_bias/bios/only_task_balanced/val.pkl"
+    test_pkl: "/share/cp/datasets/nlp/text_classification_bias/bios/only_task_balanced/test.pkl"
+    labels_protected_path: "/share/cp/datasets/nlp/text_classification_bias/bios/labels_protected_gender.txt"
+    labels_task_path: "/share/cp/datasets/nlp/text_classification_bias/bios/labels_task.txt"
+    output_dir: "checkpoints_bios"
+    log_dir: "logs_bios"
+    rf_task: 2
+    rf_prot: 16
+    train_triplet: "/share/cp/datasets/nlp/text_classification_bias/bios/only_task_balanced/train_triplet_bios_gender_nrepeat5.pkl"
+data_config_pan16:
+    task_key: "task_label"
+    protected_key: ["gender", "age"]
+    text_key: "text"
+    train_pkl: "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/train.pkl"
+    val_pkl: "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/validation.pkl"
+    test_pkl: "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/test.pkl"
+    labels_protected_path: [
+        "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/labels_protected_gender.txt",
+        "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/labels_protected_age.txt"
+    ]
+    labels_task_path: "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/labels_task.txt"
+    output_dir: "checkpoints_pan16"
+    log_dir: "logs_pan16"
+    train_triplet: [
+        "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/train_triplet_pan16_gender_nrepeat5.pkl",
+        "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/train_triplet_pan16_age_nrepeat5.pkl" 
+    ]
+    rf_task: 1
+    rf_prot: 16
+    train_triplet_all: "/share/cp/datasets/nlp/text_classification_bias/Mention_PAN16/pickle_format/train_triplet_pan16_gender_age_nrepeat1.pkl"
+data_config_hatespeech:
+    task_key: "label"
+    protected_key: "dialect"
+    text_key: "tweet"
+    train_pkl: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/train.pkl"
+    val_pkl: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/val.pkl"
+    test_pkl: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/test.pkl"
+    labels_protected_path: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/labels_protected_race.txt"
+    labels_task_path: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/labels_task.txt"
+    output_dir: "checkpoints_hatespeech"
+    log_dir: "logs_hatespeech"
+    rf_task: 16
+    rf_prot: 16
+    train_triplet: "/share/cp/datasets/nlp/hate_speech/Twitter/AAEpredicted/pickle_format/train_triplet_hatespeech_dialect_nrepeat5.pkl"
+model_config:
+    model_name: "google/bert_uncased_L-4_H-256_A-4" # "bert-base-uncased" # "google/bert_uncased_L-4_H-256_A-4" # "google/bert_uncased_L-2_H-128_A-2"
+    batch_size: 64
+    tokenizer_max_length: 200
+train_config:
+    weighted_loss_protected: False
+    triplets_loss: False
+    bottleneck: False
+    unstructured_diff_pruning: False
+    structured_diff_pruning: False
+    alpha_init: 5
+    concrete_samples: 1
+    concrete_lower: -1.5
+    concrete_upper: 1.5
+    num_epochs: 20
+    num_epochs_warmup: 0
+    num_epochs_finetune: 15
+    num_epochs_fixmask: 15
+    weight_decay: 0.0
+    learning_rate: 2e-5
+    learning_rate_bottleneck: 1e-4
+    learning_rate_task_head: 1e-4
+    learning_rate_adv_head: 1e-4
+    learning_rate_alpha: 0.1
+    task_dropout: 0.3
+    task_n_hidden: 0
+    adv_dropout: 0.3
+    adv_n_hidden: 1
+    adv_count: 5
+    adv_lambda: 1.
+    bottleneck_dim: 16
+    bottleneck_dropout: 0.3
+    optimizer_warmup_steps: 0
+    sparsity_pen: 1.25e-7
+    max_grad_norm: 1.0
+    fixmask_pct: 0.1
+    logging_step: 5
+    cooldown: 5
+    modular_adv_task_head: False
+    modular_freeze_single_task_head: False
+    modular_adv_merged: False
+    modular_sparse_task: False
+    modular_merged_cutoff: False
+    modular_merged_min_pct: 0.01
+adv_attack:
+    num_epochs: 40
+    learning_rate: 1e-4
+    adv_n_hidden: 1
+    adv_count: 5
+    adv_dropout: .3
+    logging_step: 5
+    cooldown: 5
+    attack_batch_size: 64
+
+
